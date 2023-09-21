@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--Заголовок и подписи-->
+<div class="row">
+    <h1 class="my-5">{{ post.title }}</h1>
+    <p>{{ post.author }}, {{ post.date.strftime('%d.%m.%Y') }}</p>
+</div>
+
+<!--Фото-->
+<div class="row d-flex justify-content-center">
+    <img class="post_photo" src="{{ url_for('static', filename='images/' + post.image_id) }}" alt="Card image cap">
+</div>
+
+<!--Описание-->
+<div class="row my-5">
+    <div class="text-justify">
+        {{ post.text }}
+    </div>
+</div>
+
+<!--Поле комментария-->
+<div class="input-group row comment-field ">
+    <span class="input-group-text px-4 fs-4 radius-top">Оставьте комментарий</span>
+    <form class="p-3">
+        <textarea class="form-control mb-3" aria-label="С текстовым полем"></textarea>
+        <button type="submit" class="btn btn-primary mb-3">Отправить</button>
+    </form>
+</div>
+
+
+<!--Комментарии-->
+<div class="row">
+    <div>
+        {% for comment in post.comments %}
+        <div class="row mb-2 mt-2">
+            <div class="col-md-1 d-flex justify-content-center align-items-center">
+                <img class="avatar_comment" src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="Author">
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <b>{{comment.author}}</b>
+                </div>
+                <div class="row">
+                    {{comment.text}}
+                </div>
+            </div>
+        </div>
+        {% for reply in comment.replies %}
+        <div class="row mx-5 mb-2 mt-2">
+            <div class="col-md-1 d-flex justify-content-center align-items-center">
+                <img class="avatar_comment" src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="Author">
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <b>{{reply.author}}</b>
+                </div>
+                <div class="row">
+                    {{reply.text}}
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+        <br>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+

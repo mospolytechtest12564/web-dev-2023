@@ -1,0 +1,31 @@
+body {
+    font-size: 1.25rem;
+}
+
+.avatar {
+    max-width: 100%;
+}
+
+.post_photo {
+    max-width: 75%;
+    max-height: 70%;
+}
+
+.avatar_comment {
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50px;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.comment-field {
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+footer {
+    background-color: #212529;
+    color: white;
+}

@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+
+{% block content%}
+<form method="POST">
+    <div class="col-4 mb-3">
+        <label class="form-label" for="number">Введите, пожалуйста, номер для проверки:</label>
+        <input class="form-control {% if error and request.method == 'POST'%} is-invalid {% elif request.method == 'POST' and not error%} is-valid {%else%} {% endif %}" type="text" name="number"
+            id="number" value="{{ request.form.number }}">
+        {% if request.method == 'POST' %}
+        <div class="{% if error %} invalid-feedback {% endif %}">{{output}}</div>
+        {% endif %}
+    </div>
+    <button class="btn btn-primary">Проверить</button>
+</form>
+{% endblock %}
