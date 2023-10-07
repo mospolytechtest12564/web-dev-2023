@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% from 'pagination.html' import pagination %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                Пользователь
+            </th>
+            <th>
+                Количество посещений
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>
+                {{start_index + loop.index}}
+            </td>
+            <td>
+                {{log.login or 'Анонимный пользователь'}}
+            </td>
+            <td>
+                {{log.count}}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{{ pagination(current_page, last_page, request.endpoint) }}
+<a class="btn btn-primary" href="{{ url_for('visits.download_statistic_users') }}" role="button">Экспорт в CSV</a>
+{% endblock %}

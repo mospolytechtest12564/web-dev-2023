@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% from 'pagination.html' import pagination %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                №
+            </th>
+            <th>
+                path
+            </th>
+            <th>
+                login
+            </th>
+            <th>
+                date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td>
+                {{start_index + loop.index}}
+            </td>
+            <td>
+                {{log.path}}
+            </td>
+            <td>
+                {{log.login or 'Анонимный пользователь'}}
+            </td>
+            <td>
+                {{ log.created_at }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="row">
+    {{ pagination(current_page, last_page, request.endpoint) }}
+    {% if current_user.is_authenticated %}
+    {% if current_user.can('create') %}
+    <a href="{{ url_for('visits.statistic_pages') }}">Отчет по страницам</a>
+    <a href="{{ url_for('visits.statistic_users') }}">Отчет по пользователям</a>
+    {% endif %}
+    {% endif %}
+    {% endblock %}
+</div>

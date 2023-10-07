@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% from 'form.html' import user_form %}
+
+{% block content %}
+<h2 class="my-3">Добавление нового пользователя</h2>
+<p>Пароль должен соответсвовать следующим условиям: </p>
+<ol>
+    <li>не менее 8 символов;</li>
+    <li>как минимум одна заглавная;</li>
+    <li>как минимум одна строчная буква;</li>
+    <li>только латинские или кириллические буквы;</li>
+    <li>как минимум одна цифра (допустимы только арабские цифры);</li>
+    <li>без пробелов;</li>
+</ol>
+<p>Другие допустимые символы:~ ! ? @ # $ % ^ & * _ - + ( ) [ ] { } > < / \ | " ' . , : ;</p>
+{{ user_form(user, url_for('create_user'), roles_list, m,
+output_login, error_login,
+output_pass, error_pass,
+output_f_n, error_f_n,
+output_l_n, error_l_n) }}
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% macro user_form(user, action, roles_list, m,
+    output_login, error_login,
+    output_pass, error_pass,
+    output_f_n, error_f_n,
+    output_l_n, error_l_n) %}
+    
+    <form method="POST" action="{{ action }}">
+        {% if request.endpoint == 'users_new' or request.endpoint == 'create_user' %}
+        <div class="row mb-3">
+            <label for="login" class="col-sm-2 col-form-label">Login</label>
+            <div class="col-sm-10">
+                <input
+                    class="form-control {% if error_login and m%} is-invalid {% elif m and not error_login%} is-valid {%else%} {% endif %}"
+                    type="text" name="login" id="login" value="{{ user.login or '' }}">
+                {% if request.method == 'POST' %}
+                <div class="{% if error %} invalid-feedback {% endif %}">{{output_login}}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="password" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input 
+                class="form-control {% if error_pass and m%} is-invalid {% elif m and not error_pass%} is-valid {%else%} {% endif %}"
+                name="password" id="password" value="{{ user.password or '' }}">
+                {% if request.method == 'POST' %}
+                <div class="{% if error %} invalid-feedback {% endif %}">{{output_pass}}</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        <div class="row mb-3">
+            <label for="last_name" class="col-sm-2 col-form-label">Last name</label>
+            <div class="col-sm-10">
+                <input 
+                class="form-control {% if error_l_n and m%} is-invalid {% elif m and not error_l_n%} is-valid {%else%} {% endif %}"
+                type="text" name="last_name" id="last_name" value="{{ user.last_name or '' }}">
+                {% if request.method == 'POST' %}
+                <div class="{% if error %} invalid-feedback {% endif %}">{{output_l_n}}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="first_name" class="col-sm-2 col-form-label">First name</label>
+            <div class="col-sm-10">
+                <input 
+                class="form-control {% if error_f_n and m%} is-invalid {% elif m and not error_f_n%} is-valid {%else%} {% endif %}"
+                type="text" name="first_name" id="first_name"
+                    value="{{ user.first_name or '' }}">
+                {% if request.method == 'POST' %}
+                <div class="{% if error %} invalid-feedback {% endif %}">{{output_f_n}}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="middle_name" class="col-sm-2 col-form-label">Middle name</label>
+            <div class="col-sm-10">
+                <input type="text" name="middle_name" class="form-control" id="middle_name"
+                    value="{{ user.middle_name or '' }}">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="role_id" class="col-sm-2 col-form-label">Role</label>
+            <div class="col-sm-10">
+                <select name="role_id" class="form-control" id="role_id">
+                    {% for role in roles_list %}
+                    <option {% if user.role_id | string==role.id | string %} selected {% endif %} value="{{ role.id }}">{{
+                        role.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+    {% endmacro %}

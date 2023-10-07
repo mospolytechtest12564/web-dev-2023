@@ -1,0 +1,9 @@
+Num,page,visits_count
+1,/auth/login,8
+2,/,6
+3,/visits/,5
+4,/users,5
+5,/visits/pages,3
+6,/visits/pages/download,2
+7,/auth/logout,2
+8,/visits/users,1

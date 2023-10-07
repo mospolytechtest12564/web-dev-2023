@@ -30,13 +30,17 @@ class User(UserMixin):
 def index():
     return render_template('index.html')
 
-#def check_pass_conditons(password):
-#    pattern_password = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[~@$!%*#?&(){}A-Za-z\d@$!#%*?&]{8,128}$')
-#    return bool(pattern_password.match(password))
-
 def check_pass_conditions_by_one(output_pass, error_pass, password):
     output_pass = "Пароль не соответствует следующим критериям: "
     crits = []
+    
+    if password is None:
+        crits.append("1")
+        error_pass = True
+        output_pass += ", ".join(crits)
+        return["Поле не должно быть пустым.", error_pass]
+
+
     if len(password) < 8 or len(password) > 128:
         crits.append("1")
         error_pass = True
@@ -137,9 +141,7 @@ def check_params(params):
         output_pass = "Поле не должно быть пустым."
         error_pass = True
     [output_pass, error_pass] = check_pass_conditions_by_one(output_pass, error_pass, params['password'])
-    #elif not check_pass_conditons(params['password']):
-    #    output_pass = "Введенный пароль не соответствует требованиям."
-    #    error_pass = True
+
     if params["last_name"] == None:
         output_l_n = "Поле не должно быть пустым."
         error_l_n = True
@@ -185,12 +187,6 @@ def change_pass():
             error_new_pass = True
         
         [output_new_pass, error_new_pass] = check_pass_conditions_by_one(output_new_pass, error_new_pass, params['new_password'])
-
-        #elif not check_pass_conditons(params['new_password']):
-        #    output_new_pass = "Введенный пароль не соответствует требованиям."
-        #    output_repeat_pass = "Введенный пароль не соответствует требованиям."
-        #    error_new_pass = True
-        #    error_repeat_pass = True
 
         if params['repeat_new_password'] == None:
             output_repeat_pass = "Поле не должно быть пустым."

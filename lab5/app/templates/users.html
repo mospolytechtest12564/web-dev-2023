@@ -47,12 +47,19 @@
             </td>
             <td>
                 <div class="btn-group" role="group">
+                    {% if current_user.is_authenticated and current_user.can('show', user) %}
                     <a class="btn btn-secondary" href="{{ url_for('show_user', user_id=user.id) }}">Просмотр</a>
+                    {% endif %}
                     {% if current_user.is_authenticated %}
+                    {% if current_user.can('edit', user) %}
                     <a class="btn btn-primary" href="{{ url_for('edit_user', user_id=user.id) }}">Редактировать</a>
+                    {% endif %}
+                    {% if current_user.can('delete', user) %}
                     <button class="btn btn-danger" data-bs-toggle="modal" data-url="{{ url_for('delete_user', user_id=user.id) }}" data-bs-target="#deleteUser">Удалить</button>
                     {% endif %}
+                    {% endif %}
 
+                    <!-- Modal -->
                     <div class="modal fade" id="deleteUser" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -70,8 +77,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Нет</button>
-                                    <label for="deleteUserButton" class="btn btn-danger">Да</label>
+                                        data-bs-dismiss="modal">Отмена</button>
+                                    <label for="deleteUserButton" class="btn btn-danger">Удалить</label>
                                 </div>
                             </div>
                         </div>
@@ -83,7 +90,7 @@
         {% endfor %}
     </tbody>
 </table>
-{% if current_user.is_authenticated %}
+{% if current_user.is_authenticated and current_user.can('create') %}
 <a href="{{url_for('users_new')}}" class="btn btn-primary">Добавить пользователя</a>
 {% endif %}
 {% endblock %}
